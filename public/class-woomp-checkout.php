@@ -180,6 +180,119 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		}
 
 		/**
+		 * 設定取消必填欄位
+		 *
+		 * @param array $fields Fields.
+		 */
+		public function set_protype1_shipping_field( $fields ) {
+
+			$shipping_method = array(
+				'ry_ecpay_shipping_cvs_711',
+				'ry_ecpay_shipping_cvs_711_freeze',
+				'ry_ecpay_shipping_cvs_hilife',
+				'ry_ecpay_shipping_cvs_family',
+				'ry_ecpay_shipping_cvs_okmart',
+				'ry_newebpay_shipping_cvs',
+				'paynow_shipping_c2c_711',
+				'paynow_shipping_c2c_family',
+				'paynow_shipping_c2c_hilife',
+				'ry_smilepay_shipping_cvs_711',
+				'ry_smilepay_shipping_cvs_fami',
+			);
+
+			foreach ( $shipping_method as $method ) {
+				global $woocommerce;
+				$chosen_methods = wc_get_chosen_shipping_method_ids();
+
+        if ( count( $chosen_methods ) > 0 ) {
+
+					$chosen_shipping = $chosen_methods[0];
+
+					if ( $chosen_shipping == $method ) {
+						$fields['billing']['billing_postcode']['required']     = false;
+						$fields['billing']['billing_state']['required']        = false;
+						$fields['billing']['billing_city']['required']         = false;
+						$fields['billing']['billing_address_1']['required']    = false;
+						$fields['shipping']['shipping_first_name']['required'] = false;
+						$fields['shipping']['shipping_last_name']['required']  = false;
+						$fields['shipping']['shipping_phone']['required']      = false;
+					}
+				}
+
+				if ( $this->is_virtual_cart() || $this->is_free_cart() ) {
+					$fields['billing']['billing_postcode']['required']     = false;
+					$fields['billing']['billing_state']['required']        = false;
+					$fields['billing']['billing_city']['required']         = false;
+					$fields['billing']['billing_address_1']['required']    = false;
+					$fields['shipping']['shipping_first_name']['required'] = false;
+					$fields['shipping']['shipping_last_name']['required']  = false;
+					$fields['shipping']['shipping_phone']['required']      = false;
+				}
+
+				/**
+				 * 增加運送離島選項
+				 */
+				if ( $this->has_island_postcodes() && ! $this->is_virtual_cart() ) {
+					$fields['billing']['billing_island'] = array(
+						'type'  => 'checkbox',
+						'label' => '寄送到離島區域',
+						'class' => array( $this->get_postcodes()[2] ),
+						'clear' => true,
+					);
+				}
+			}
+
+      // 調整大小和順序
+      $fields['billing']['billing_first_name']['label']    = '姓名';
+      $fields['billing']['billing_first_name']['priority'] = 10;
+      $fields['billing']['billing_first_name']['class'][0] = 'form-row-first';
+
+      $fields['billing']['billing_phone']['priority'] = 20;
+      $fields['billing']['billing_phone']['class'][0] = 'form-row-last';
+
+      $fields['billing']['billing_email']['priority'] = 30;
+
+      unset ($fields['billing']['billing_last_name']);
+      unset ($fields['billing']['billing_company']);
+
+      // 調整大小和順序
+      $fields['shipping']['shipping_first_name']['label']    = '姓名';
+      $fields['shipping']['shipping_first_name']['priority'] = 10;
+      $fields['shipping']['shipping_first_name']['class'][0] = 'form-row-wide';
+
+      unset ($fields['shipping']['shipping_last_name']);
+      unset ($fields['shipping']['shipping_company']);
+
+      return $fields;
+		}
+
+		/**
+		 * 設定取消必填欄位
+		 *
+		 * @param array $fields Fields.
+		 */
+		public function set_protype1_address_field( $fields ) {
+
+      $fields['state']['priority'] = 40;
+      $fields['state']['class'][0] = 'form-row-1-3';
+
+      $fields['city']['priority'] = 50;
+      $fields['city']['class'][0] = 'form-row-1-3';
+
+      $fields['postcode']['priority'] = 60;
+      $fields['postcode']['class'][0] = 'form-row-1-3';
+      $fields['postcode']['class'][1] = 'form-row-1-3-last';
+
+      $fields['country']['priority']    = 70;
+      $fields['address_1']['priority']  = 80;
+      $fields['address_1']['placeholder'] = '街道地址';
+
+      unset ($fields['address_2']);
+
+      return $fields;
+		}
+
+		/**
 		 * 新增沒送到的離島縣市欄位
 		 *
 		 * @param array $checkout Checkout Fields.
@@ -448,8 +561,9 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 $checkout = new WooMP_Checkout();
 
 if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'protype1' ) {
-	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
-	add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
+	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_protype1_shipping_field' ), 10000 );
+	add_filter( 'woocommerce_default_address_fields', array( $checkout, 'set_protype1_address_field' ), 10000 );
+	//add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
 }
 
 else if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' ) {

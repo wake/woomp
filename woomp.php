@@ -113,8 +113,7 @@ run_woomp();
  *
  * @return string The new Template file path.
  */
-if (get_option('wc_woomp_setting_mode', 1) === 'protype1'
-  || get_option('wc_woomp_setting_mode', 1) === 'onepage'
+if (get_option('wc_woomp_setting_mode', 1) === 'onepage'
   || get_option('wc_woomp_setting_mode', 1) === 'twopage') {
 	add_filter('wc_get_template', 'intercept_wc_template', 99, 3);
 	function intercept_wc_template($template, $template_name, $template_path)
@@ -123,6 +122,26 @@ if (get_option('wc_woomp_setting_mode', 1) === 'protype1'
 		$path               = $template_directory . $template_name;
 
 		return file_exists($path) ? $path : $template;
+	}
+}
+
+else if (get_option('wc_woomp_setting_mode', 1) === 'protype1') {
+	add_filter('wc_get_template', 'intercept_wc_template', 99, 3);
+	function intercept_wc_template($template, $template_name, $template_path)
+	{
+    $overwrite = [
+      'myaccount/form-edit-account.php',
+    ];
+
+    if (in_array ($template_name, $overwrite)) {
+
+      $template_directory = trailingslashit(plugin_dir_path(__FILE__)) . 'woocommerce/';
+      $path               = $template_directory . $template_name;
+  
+      return file_exists ($path) ? $path : $template;  
+    }
+
+    return $template;
 	}
 }
 
