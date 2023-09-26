@@ -1,7 +1,9 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
-if ( 'onepage' === get_option( 'wc_woomp_setting_mode' ) || 'twopage' === get_option( 'wc_woomp_setting_mode' ) ) {
+if ( 'protype1' === get_option( 'wc_woomp_setting_mode' )
+  || 'onepage' === get_option( 'wc_woomp_setting_mode' )
+  || 'twopage' === get_option( 'wc_woomp_setting_mode' ) ) {
 	$non_js_checkout = ! empty( $_POST['woocommerce_checkout_update_totals'] ); // WPCS: input var ok, CSRF ok.
 
 	if ( wc_notice_count( 'error' ) === 0 && $non_js_checkout ) {

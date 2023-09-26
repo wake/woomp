@@ -107,7 +107,9 @@ class Woomp_Public {
 				'woomp_checkout',
 				'woomp_checkout_params',
 				array(
-					'enableWoomp'                 => ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' || get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) ? 'yes' : '',
+					'enableWoomp'                 => ( get_option( 'wc_woomp_setting_mode', 1 ) === 'protype1'
+                                            || get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage'
+                                            || get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) ? 'yes' : '',
 					'enableTwoPage'               => ( get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) ? 'yes' : '',
 					'enableTwAddress'             => get_option( 'wc_woomp_setting_tw_address' ),
 					'enableVirtualProductAddress' => get_option( 'wc_woomp_setting_virtual_product_address' ),

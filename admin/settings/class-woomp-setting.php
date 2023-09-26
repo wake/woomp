@@ -287,6 +287,7 @@ class Woomp_Setting
                 'class' => 'wc_woomp_setting_mode',
                 'options' => array(
                     'default' => '預設',
+                    'protype1' => '覺形1',
                     'onepage' => '一頁式結帳',
                     'twopage' => '兩頁式結帳',
                 ),

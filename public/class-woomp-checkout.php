@@ -447,7 +447,12 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 
 $checkout = new WooMP_Checkout();
 
-if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' ) {
+if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'protype1' ) {
+	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
+	add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
+}
+
+else if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' ) {
 	add_action( 'wp_head', array( $checkout, 'redirect_cart_page_to_checkout' ), 1 );
 	add_action( 'woocommerce_before_checkout_form', array( $checkout, 'set_cart_in_checkout_page' ) );
 	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );

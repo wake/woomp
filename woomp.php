@@ -113,7 +113,9 @@ run_woomp();
  *
  * @return string The new Template file path.
  */
-if (get_option('wc_woomp_setting_mode', 1) === 'onepage' || get_option('wc_woomp_setting_mode', 1) === 'twopage') {
+if (get_option('wc_woomp_setting_mode', 1) === 'protype1'
+  || get_option('wc_woomp_setting_mode', 1) === 'onepage'
+  || get_option('wc_woomp_setting_mode', 1) === 'twopage') {
 	add_filter('wc_get_template', 'intercept_wc_template', 99, 3);
 	function intercept_wc_template($template, $template_name, $template_path)
 	{
