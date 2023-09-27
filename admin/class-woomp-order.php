@@ -112,7 +112,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			$pre_array = array_splice( $columns, 0, $add_index );
 			$array     = array(
 				'wmp_payment_no'  => __( '金流單號', 'ry-woocommerce-tools' ),
-				'wmp_shipping_no' => __( '物流單號', 'ry-woocommerce-tools' ),
+				//'wmp_shipping_no' => __( '物流單號', 'ry-woocommerce-tools' ),
 			);
 			return array_merge( $pre_array, $array, $columns );
 		}
@@ -126,6 +126,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				echo $order->get_data()['transaction_id'];
 				// echo ( ! empty( $trans_id ) ) ? esc_html( $trans_id ) : '';
 			}
+      /*
 			if ( $column == 'wmp_shipping_no' ) {
 				global $the_order;
 				$shipping_list = $the_order->get_meta( '_ecpay_shipping_info', true );
@@ -157,6 +158,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 					<?php
 				}
 			}
+      */
 
 			if ( get_option( 'wc_woomp_setting_show_phone', 1 ) === 'yes' ) {
 				/**

@@ -15,7 +15,7 @@ if ( ! class_exists( 'WooMP_Order_Public' ) ) {
 		 */
 		public static function init() {
 			$class = new self();
-			add_action( 'woocommerce_view_order', array( $class, 'display_order_shipping_number' ) );
+			//add_action( 'woocommerce_view_order', array( $class, 'display_order_shipping_number' ) );
 		}
 
 		/**

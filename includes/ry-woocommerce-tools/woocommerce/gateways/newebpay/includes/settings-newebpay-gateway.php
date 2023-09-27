@@ -44,7 +44,7 @@ return [
     ],
     [
         'title' => __('API credentials', 'ry-woocommerce-tools'),
-        'id' => 'api_options',
+        'id' => 'api_test_options',
         'type' => 'title'
     ],
     [
@@ -53,6 +53,33 @@ return [
         'type' => 'checkbox',
         'default' => 'yes',
         'desc' => __('Enable NewebPay gateway sandbox', 'ry-woocommerce-tools')
+    ],
+    [
+        'title' => __('MerchantID', 'NewebPay', 'ry-woocommerce-tools'),
+        'id' => RY_WT::$option_prefix . 'newebpay_gateway_test_MerchantID',
+        'type' => 'text',
+        'default' => ''
+    ],
+    [
+        'title' => __('HashKey', 'NewebPay', 'ry-woocommerce-tools'),
+        'id' => RY_WT::$option_prefix . 'newebpay_gateway_test_HashKey',
+        'type' => 'text',
+        'default' => ''
+    ],
+    [
+        'title' => __('HashIV', 'NewebPay', 'ry-woocommerce-tools'),
+        'id' => RY_WT::$option_prefix . 'newebpay_gateway_test_HashIV',
+        'type' => 'text',
+        'default' => ''
+    ],
+    [
+        'id' => 'api_options',
+        'type' => 'sectionend'
+    ],
+    [
+        'title' => __('API 憑證（正式環境）', 'ry-woocommerce-tools'),
+        'id' => 'api_options',
+        'type' => 'title'
     ],
     [
         'title' => __('MerchantID', 'NewebPay', 'ry-woocommerce-tools'),

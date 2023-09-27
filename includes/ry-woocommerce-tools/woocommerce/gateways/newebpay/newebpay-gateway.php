@@ -71,9 +71,18 @@ final class RY_NewebPay_Gateway {
 	}
 
 	public static function get_newebpay_api_info() {
-		$MerchantID = RY_WT::get_option( 'newebpay_gateway_MerchantID' );
-		$HashKey    = RY_WT::get_option( 'newebpay_gateway_HashKey' );
-		$HashIV     = RY_WT::get_option( 'newebpay_gateway_HashIV' );
+    
+    if ('yes' === RY_WT::get_option('newebpay_gateway_testmode', 'yes')) {
+      $MerchantID = RY_WT::get_option( 'newebpay_gateway_test_MerchantID' );
+      $HashKey    = RY_WT::get_option( 'newebpay_gateway_test_HashKey' );
+      $HashIV     = RY_WT::get_option( 'newebpay_gateway_test_HashIV' );
+    }
+
+    else {
+  		$MerchantID = RY_WT::get_option( 'newebpay_gateway_MerchantID' );
+  		$HashKey    = RY_WT::get_option( 'newebpay_gateway_HashKey' );
+  		$HashIV     = RY_WT::get_option( 'newebpay_gateway_HashIV' );
+    }
 
 		return array( $MerchantID, $HashKey, $HashIV );
 	}
