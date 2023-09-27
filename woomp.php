@@ -125,7 +125,30 @@ if (get_option('wc_woomp_setting_mode', 1) === 'onepage'
 	}
 }
 
+// 個人資料編輯畫面改為客製化
 else if (get_option('wc_woomp_setting_mode', 1) === 'protype1') {
+
+  // 移除姓氏必填
+  add_filter ('woocommerce_save_account_details_required_fields', function ($required_fields) {
+    unset ($required_fields['account_last_name']);
+    return $required_fields;
+  }, 99);
+
+  // 使用客製化表單調整顯示
+  add_filter('wc_get_template', function ($template, $template_name, $template_path) {
+
+    if ($template_name == 'myaccount/form-edit-account.php') {
+		  $template_directory = trailingslashit(plugin_dir_path(__FILE__)) . 'woocommerce/';
+		  $path = $template_directory . $template_name;
+
+      // 使用客製化模版時，調整必填欄位
+      if (file_exists($path))
+		    return $path;
+    }
+
+		return $template;
+
+	}, 99, 3);
 }
 
 /**

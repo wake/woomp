@@ -316,6 +316,46 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
       return $fields;
 		}
 
+
+    public function set_protype1_my_address_format ( $args, $customer_id, $type ) {
+
+      if ($type === 'billing') {
+        $args['email'] = get_user_meta( $customer_id, 'billing_email', true );
+      }
+
+      return $args;
+    }
+
+
+    public function set_protype1_localisation_address_format ($formats) {
+
+      $formats['TW'] = "{custom_block}";
+
+      return $formats;
+    }
+
+
+
+    // 加入電話顯示
+    public function set_protype1_address_replacements( $replacements, $args ) {
+
+      if (isset ($args['phone']) && $args['phone'] != '') {
+        $replacements['{custom_block}'] = 
+          "姓名：{$args['first_name']}\n" .
+          "電話：{$args['phone']}\n" .
+          "Email：{$args['email']}\n" .
+          "地址：{$args['postcode']} {$args['state']} {$args['city']} {$args['address_1']}";
+      }
+
+      else {
+        $replacements['{custom_block}'] = 
+          "姓名：{$args['first_name']}\n" .
+          "地址：{$args['postcode']} {$args['state']} {$args['city']} {$args['address_1']}";
+      }
+
+      return $replacements;
+    }
+
 		/**
 		 * 新增沒送到的離島縣市欄位
 		 *
@@ -589,17 +629,9 @@ if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'protype1' ) {
 	add_filter( 'woocommerce_billing_fields', array( $checkout, 'set_protype1_billing_fields' ), 10000 );
 	add_filter( 'woocommerce_shipping_fields', array( $checkout, 'set_protype1_shipping_fields' ), 10000 );
 	add_filter( 'woocommerce_default_address_fields', array( $checkout, 'set_protype1_address_fields' ), 10000 );
-
-	add_filter( 'woocommerce_default_address_fields', function ($addresses) {
-
-    unset ($addresses['last_name']);
-    unset ($addresses['company']);
-    unset ($addresses['country']);
-
-    return $addresses;
-
-  }, 10000, 2 );
-
+  add_filter( 'woocommerce_my_account_my_address_formatted_address', array( $checkout, 'set_protype1_my_address_format' ), 10, 3 );
+  add_filter( 'woocommerce_formatted_address_replacements', array( $checkout, 'set_protype1_address_replacements' ), 10, 2 );
+  add_filter( 'woocommerce_localisation_address_formats', array( $checkout, 'set_protype1_localisation_address_format' ), 30 );
   //woocommerce_my_account_my_address_formatted_address', $address, $customer->get_id(), $address_type
 	//add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
 }
