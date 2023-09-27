@@ -49,7 +49,7 @@ if (!in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WOOMP_VERSION', '3.0.0');
+define('WOOMP_VERSION', '3.0.0e');
 define('WOOMP_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WOOMP_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WOOMP_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -126,23 +126,6 @@ if (get_option('wc_woomp_setting_mode', 1) === 'onepage'
 }
 
 else if (get_option('wc_woomp_setting_mode', 1) === 'protype1') {
-	add_filter('wc_get_template', 'intercept_wc_template', 99, 3);
-	function intercept_wc_template($template, $template_name, $template_path)
-	{
-    $overwrite = [
-      'myaccount/form-edit-account.php',
-    ];
-
-    if (in_array ($template_name, $overwrite)) {
-
-      $template_directory = trailingslashit(plugin_dir_path(__FILE__)) . 'woocommerce/';
-      $path               = $template_directory . $template_name;
-  
-      return file_exists ($path) ? $path : $template;  
-    }
-
-    return $template;
-	}
 }
 
 /**

@@ -257,6 +257,10 @@ jQuery(function($){
 	}
 
 	function setFunctionForTaiwan(){
+
+    setIslandShipping('show');
+
+    /*
 		$('#billing_country, #shipping_country').on('change', function(){
 			if( $(this).val() === 'TW' ){
 				setIslandShipping('show');
@@ -269,6 +273,7 @@ jQuery(function($){
 		} else {
 			setIslandShipping('hide');
 		}
+    */
 	}
 
 	function setFreeCart(){
@@ -285,7 +290,7 @@ jQuery(function($){
         if( woomp_checkout_params.enableWoomp === 'yes' ){
 			setBillingShippingFieldsSync();
 			setUpdateCart();
-			setCheckoutButtonToBottom();
+			//setCheckoutButtonToBottom();
 			changeFieldsDisplayByShippingMethod();
 			setFunctionForTaiwan()
 			setIslandCvsNotification()
@@ -296,7 +301,7 @@ jQuery(function($){
 		}
         if( woomp_checkout_params.enableTwAddress === 'yes' ){
 			setTwAddress();
-			setTwCountyStatus( ['金門縣','澎湖縣','連江縣'], 'hide' )
+			//setTwCountyStatus( ['金門縣','澎湖縣','連江縣'], 'hide' )
 		}
 	})
 })

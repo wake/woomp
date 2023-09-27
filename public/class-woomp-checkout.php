@@ -122,6 +122,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 * @param array $fields Fields.
 		 */
 		public function set_shipping_field( $fields ) {
+      
 			$shipping_method = array(
 				'ry_ecpay_shipping_cvs_711',
 				'ry_ecpay_shipping_cvs_711_freeze',
@@ -184,7 +185,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 *
 		 * @param array $fields Fields.
 		 */
-		public function set_protype1_shipping_field( $fields ) {
+		public function set_protype1_checkout_fields( $fields ) {
 
 			$shipping_method = array(
 				'ry_ecpay_shipping_cvs_711',
@@ -242,26 +243,8 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				}
 			}
 
-      // 調整大小和順序
-      $fields['billing']['billing_first_name']['label']    = '姓名';
-      $fields['billing']['billing_first_name']['priority'] = 10;
-      $fields['billing']['billing_first_name']['class'][0] = 'form-row-first';
-
-      $fields['billing']['billing_phone']['priority'] = 20;
-      $fields['billing']['billing_phone']['class'][0] = 'form-row-last';
-
-      $fields['billing']['billing_email']['priority'] = 30;
-
-      unset ($fields['billing']['billing_last_name']);
-      unset ($fields['billing']['billing_company']);
-
-      // 調整大小和順序
-      $fields['shipping']['shipping_first_name']['label']    = '姓名';
-      $fields['shipping']['shipping_first_name']['priority'] = 10;
-      $fields['shipping']['shipping_first_name']['class'][0] = 'form-row-wide';
-
-      unset ($fields['shipping']['shipping_last_name']);
-      unset ($fields['shipping']['shipping_company']);
+      $fields['billing'] = $this->set_protype1_billing_fields ($fields['billing']);
+      $fields['shipping'] = $this->set_protype1_shipping_fields ($fields['shipping']);
 
       return $fields;
 		}
@@ -271,7 +254,48 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 *
 		 * @param array $fields Fields.
 		 */
-		public function set_protype1_address_field( $fields ) {
+		public function set_protype1_billing_fields( $fields ) {
+
+      // 調整大小和順序
+      $fields['billing_first_name']['label']    = '姓名';
+      $fields['billing_first_name']['priority'] = 10;
+      $fields['billing_first_name']['class'][0] = 'form-row-first';
+
+      $fields['billing_phone']['priority'] = 20;
+      $fields['billing_phone']['class'][0] = 'form-row-last';
+
+      $fields['billing_email']['priority'] = 30;
+
+      unset ($fields['billing_last_name']);
+      unset ($fields['billing_company']);
+
+      return $fields;
+		}
+
+		/**
+		 * 設定取消必填欄位
+		 *
+		 * @param array $fields Fields.
+		 */
+		public function set_protype1_shipping_fields( $fields ) {
+
+      // 調整大小和順序
+      $fields['shipping_first_name']['label']    = '姓名';
+      $fields['shipping_first_name']['priority'] = 10;
+      $fields['shipping_first_name']['class'][0] = 'form-row-first form-row-no-float';
+
+      unset ($fields['shipping_last_name']);
+      unset ($fields['shipping_company']);
+
+      return $fields;
+		}
+
+		/**
+		 * 設定取消必填欄位
+		 *
+		 * @param array $fields Fields.
+		 */
+		public function set_protype1_address_fields( $fields ) {
 
       $fields['state']['priority'] = 40;
       $fields['state']['class'][0] = 'form-row-1-3';
@@ -561,8 +585,22 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 $checkout = new WooMP_Checkout();
 
 if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'protype1' ) {
-	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_protype1_shipping_field' ), 10000 );
-	add_filter( 'woocommerce_default_address_fields', array( $checkout, 'set_protype1_address_field' ), 10000 );
+	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_protype1_checkout_fields' ), 10000 );
+	add_filter( 'woocommerce_billing_fields', array( $checkout, 'set_protype1_billing_fields' ), 10000 );
+	add_filter( 'woocommerce_shipping_fields', array( $checkout, 'set_protype1_shipping_fields' ), 10000 );
+	add_filter( 'woocommerce_default_address_fields', array( $checkout, 'set_protype1_address_fields' ), 10000 );
+
+	add_filter( 'woocommerce_default_address_fields', function ($addresses) {
+
+    unset ($addresses['last_name']);
+    unset ($addresses['company']);
+    unset ($addresses['country']);
+
+    return $addresses;
+
+  }, 10000, 2 );
+
+  //woocommerce_my_account_my_address_formatted_address', $address, $customer->get_id(), $address_type
 	//add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
 }
 
@@ -571,7 +609,9 @@ else if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' ) {
 	add_action( 'woocommerce_before_checkout_form', array( $checkout, 'set_cart_in_checkout_page' ) );
 	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
 	add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
-} elseif ( get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) {
+}
+
+elseif ( get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) {
 	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
 	add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
 }

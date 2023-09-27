@@ -7,3 +7,7 @@
 #order_review {
 	display: block!important;
 }
+
+.form-row-no-float {
+  float: none!important;
+}

@@ -100,7 +100,7 @@ class Woomp_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-public.js', array( 'jquery' ), $this->version, true );
 
-		if ( is_checkout() ) {
+    if ( is_checkout() ) {
 
 			wp_register_script( 'woomp_checkout', plugin_dir_url( __FILE__ ) . 'js/woomp-checkout.js', array( 'jquery' ), '1.8.3', true );
 			wp_localize_script(
@@ -127,6 +127,38 @@ class Woomp_Public {
 			);
 			wp_enqueue_script( 'woomp_checkout' );
 		}
+
+    else if (is_account_page () && (
+      strpos ($_SERVER['REQUEST_URI'], 'edit-address/billing') !== false ||
+      strpos ($_SERVER['REQUEST_URI'], 'edit-address/shipping') !== false
+    )) {
+
+      //wp_register_script( 'protype_twzipcode', plugin_dir_url( __FILE__ ) . 'js/twzipcode-loader.js', array( 'jquery' ), '1.8.3', true );
+      wp_register_script( 'twzipcode_loader', plugin_dir_url( __FILE__ ) . 'js/twzipcode-loader.js', array( 'jquery' ), $this->version, true );
+			wp_localize_script(
+				'twzipcode_loader',
+				'woomp_params',
+				array(
+					'enableWoomp'                 => ( get_option( 'wc_woomp_setting_mode', 1 ) === 'protype1'
+                                            || get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage'
+                                            || get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) ? 'yes' : '',
+					'enableTwoPage'               => ( get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) ? 'yes' : '',
+					'enableTwAddress'             => get_option( 'wc_woomp_setting_tw_address' ),
+					'enableVirtualProductAddress' => get_option( 'wc_woomp_setting_virtual_product_address' ),
+					'enableCountryToTop'          => get_option( 'wc_woomp_setting_billing_country_pos' ),
+					'enableCheckoutLoginReminder' => get_option( 'woocommerce_enable_checkout_login_reminder', true ),
+					'enableCoupons'               => get_option( 'woocommerce_enable_coupons', true ),
+					'wcGetCheckoutUrl'            => wc_get_checkout_url(),
+					'isUserLoggedIn'              => is_user_logged_in(),
+					'textReturnCustomer'          => esc_html__( 'Returning customer?', 'woocommerce' ),
+					'textClickLogin'              => esc_html__( 'Click here to login', 'woocommerce' ),
+					'textHaveCoupon'              => esc_html__( 'Have a coupon?', 'woocommerce' ),
+					'textClickCoupon'             => esc_html__( 'Click here to enter your code', 'woocommerce' ),
+					'isFreeCart'                  => $this->is_free_cart(),
+				)
+			);
+			wp_enqueue_script( 'twzipcode_loader' );
+    }
 	}
 
 	/**

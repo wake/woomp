@@ -5,7 +5,7 @@ jQuery(document).ready(function ($) {
 		var total = woomp_ezpay_invoice_params.cart_total;
 		var productType = woomp_ezpay_invoice_params.product_type;
 		
-        if( total === '0' && !productType.includes('subscription') ){
+    if( total === '0' && !productType.includes('subscription') ){
 			$('#ezpay-invoice-type_field,#ezpay-individual-invoice_field').hide()
 		} else {
 			$('#ezpay-invoice-type_field,#ezpay-individual-invoice_field').show()
@@ -69,6 +69,8 @@ jQuery(document).ready(function ($) {
 			$('#ezpay-carrier-number_field').hide();
 		}
 	});
+
+  $("#ezpay-individual-invoice").trigger ('change');
 
 	// 自動帶入公司抬頭
 	function get_company(taxId){
