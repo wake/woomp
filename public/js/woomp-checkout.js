@@ -2,12 +2,14 @@ jQuery(function($){
 
 	// 台灣鄉鎮下拉選單
 	function setTwAddress(){
-		function updateValue( field ){
+
+    function updateValue( field ){
 			$("#"+field+"_state").val($(".woocommerce-"+field+"-fields select[name=\'county\']").val());
 			$("#"+field+"_city").val($(".woocommerce-"+field+"-fields select[name=\'district\']").val());
 			$("#"+field+"_postcode").val($(".woocommerce-"+field+"-fields input[name=\'zipcode\']").val());
 		}
-		function updateField(field){
+
+    function updateField(field){
 			$(".woocommerce-"+field+"-fields select[name=\'county\']").appendTo($("#"+field+"_state_field"));
 			$(".woocommerce-"+field+"-fields select[name=\'district\']").appendTo($("#"+field+"_city_field"));
 			$(".woocommerce-"+field+"-fields input[name=\'zipcode\']").appendTo($("#"+field+"_postcode_field"));
@@ -16,9 +18,12 @@ jQuery(function($){
 							
 			$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode();
 			
+			$(".woocommerce-billing-fields").twzipcode('set', $("#billing_postcode").val());
+			$(".woocommerce-shipping-fields").twzipcode('set', $("#shipping_postcode").val());
+
 			updateField("billing");
-			updateField("shipping");
-			
+      updateField("shipping");
+      
 			$("select[name=\'county\'],select[name=\'district\']").change(function(){
 				updateValue("billing");
 				updateValue("shipping");
