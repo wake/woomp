@@ -483,7 +483,7 @@ msgid "若需運送至多個國家，建議開啟此選項，將國家欄位移�
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:315
-msgid "縣市/鄉鎮市下拉式選單"
+msgid "縣市/鄉鎮市區下拉式選單"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:317

@@ -313,7 +313,7 @@ class Woomp_Setting
                 'std' => 'yes',
             ),
             'tw_address' => array(
-                'name' => __('縣市/鄉鎮市下拉式選單', 'woomp'),
+                'name' => __('縣市/鄉鎮市區下拉式選單', 'woomp'),
                 'type' => 'checkbox',
                 'desc' => __('開啟此選項套用結帳中的台灣地址下拉選單', 'woomp'),
                 'id' => 'wc_woomp_setting_tw_address',

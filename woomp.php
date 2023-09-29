@@ -57,6 +57,10 @@ define('WOOMP_ACTIVE_PLUGINS', apply_filters('active_plugins', get_option('activ
 
 require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
 
+add_action('plugins_loaded', 'check_my_cookies');
+function check_my_cookies() {
+}
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-woomp-activator.php

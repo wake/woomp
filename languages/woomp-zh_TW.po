@@ -501,8 +501,8 @@ msgid "若需運送至多個國家，建議開啟此選項，將國家欄位移�
 msgstr "若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前"
 
 #: admin/settings/class-woomp-setting.php:315
-msgid "縣市/鄉鎮市下拉式選單"
-msgstr "縣市/鄉鎮市下拉式選單"
+msgid "縣市/鄉鎮市區下拉式選單"
+msgstr "縣市/鄉鎮市區下拉式選單"
 
 #: admin/settings/class-woomp-setting.php:317
 msgid "開啟此選項套用結帳中的台灣地址下拉選單"
