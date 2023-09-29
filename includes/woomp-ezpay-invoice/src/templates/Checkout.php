@@ -38,7 +38,7 @@ class Checkout {
 
 		// 個人發票選項
 		if ( ! get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) ) {
-			update_option( 'wc_woomp_ezpay_invoice_carrier_type', array( '手機條碼', '自然人憑證', 'ezPay 電子發票載具' ) );
+			update_option( 'wc_woomp_ezpay_invoice_carrier_type', array( '手機條碼', '自然人憑證', 'ezPay 電子發票載具', '紙本發票' ) );
 		}
 		$type_option = array();
 		foreach ( get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) as $value ) {
