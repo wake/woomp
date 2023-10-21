@@ -105,6 +105,22 @@ class EzPayInvoiceHandler {
 			$i++;
 		}
 
+    $shippings = $order->get_shipping_methods ();
+
+    foreach ($shippings as $shipping_method) {
+
+      $divide         = ( $i > 0 ) ? '|' : '';
+			$product_name  .= $divide . preg_replace( '/[\s｜（）]+/u', '-', $shipping_method['name'] );
+
+			$product_count .= $divide . str_replace( ' ', '', '1' );
+			$product_unit  .= $divide . '';
+      $product_price .= $divide . $shipping_method['total'];
+			$product_amt   .= $divide . $shipping_method['total'];
+
+			$i++;
+
+    }
+
 		/**
 		 * B2C
 		 */
